@@ -1,0 +1,52 @@
+version: '3.8'
+
+volumes:
+  database:
+    driver: 'local'
+
+services:
+  web:
+    container_name: ${WEB_CONTAINER}
+    image: nginx
+    volumes:
+      - .:/var/www/app:cached
+      - ./docker/dev/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - app
+      - database
+
+  app:
+    container_name: ${APP_CONTAINER}
+    build:
+      context: ./
+      dockerfile: ./docker/dev/php/Dockerfile
+      args:
+        PUID: ${PUID}
+        PGID: ${PGID}
+    restart: always
+    env_file:
+      - ./.env
+    depends_on:
+      - database
+    volumes:
+      - .:/var/www/app:cached
+
+  database:
+    container_name: ${DB_CONTAINER}
+    image: postgres:11-alpine
+    restart: always
+    volumes:
+      - ./docker/dev/databse/:/docker-entrypoint-initdb.d/
+      - database:/var/lib/postgresql/data
+    ports: 
+     - 5432:5432
+    environment:
+      POSTGRES_USER: webmaster
+      POSTGRES_PASSWORD: webmaster
+      POSTGRES_DB: symfony
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+
