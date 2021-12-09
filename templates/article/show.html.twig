@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles - {{ article }}{% endblock %}
+
+{% block body %}
+    <h1> {{title_str}}  </h1>
+    <h2> Author : {{ autor }} </h2>
+    <h2> Created_at:  {{created_at}}  </h2>
+    {% if article.photofilename %}
+        <img src="{{ asset('uploads/photos/' ~ article.photofilename) }}" />
+    {% endif %}
+    <h3> {{ content }} </h3>
+
+    {% if comments|length > 0 %}
+        <div>There are {{ comments|length }} comments.</div>
+        {% for comment in comments %}
+
+            <h4>{{ comment.autor }}</h4>
+            <small>
+                {{ comment.created_at  }}
+            </small>
+
+            <p>{{ comment.content }}</p>
+        {% endfor %}
+
+        {% if previous >= 0 %}
+            <a href="{{ path('article', { id: article.id, offset: previous }) }}">Previous</a>
+        {% endif %}
+        {% if next < comments|length %}
+            <a href="{{ path('article', { id: article.id, offset: next }) }}">Next</a>
+        {% endif %}
+    {% else %}
+        <div>No comments have been posted yet for this conference.</div>
+    {% endif %}
+
+        <h2>Add your own feedback</h2>
+
+        {{ form(comment_form) }}
+{% endblock %}
