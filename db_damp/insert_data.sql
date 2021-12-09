@@ -1,0 +1,7 @@
+INSERT INTO public."user" (id, username, roles, password) VALUES (1, 'admin', '["ROLE_ADMIN"]', '$2y$13$p1e9P7cIGUXivXY3xAqU5ehEnRmFKA6PYvB98OHG.xGjo.Ph7Kgxe');
+INSERT INTO public.article (id, autor, title, content, created_at, updated_at, photo_filename) VALUES (3, 'Author 3', 'Title article 3', 'Text article 3', '2021-12-08 15:00:00', null, 'under-construction.gif');
+INSERT INTO public.article (id, autor, title, content, created_at, updated_at, photo_filename) VALUES (2, 'Author 2', 'Title article 2', 'Text article 2', '2021-12-07 14:59:00', null, 'under-construction.gif');
+INSERT INTO public.article (id, autor, title, content, created_at, updated_at, photo_filename) VALUES (1, 'Author 1', 'Title article 1', 'Text Article 1', '2021-12-06 14:58:00', null, 'under-construction.gif');
+INSERT INTO public.comment (id, autor, content, created_at, updated_at, article_id) VALUES (1, 'Commentator 1', 'Comment 1 text', '2021-12-09 10:11:01', null, 3);
+INSERT INTO public.comment (id, autor, content, created_at, updated_at, article_id) VALUES (2, 'Commentator 2', 'Comment 2 text', '2021-12-09 10:11:30', null, 3);
+INSERT INTO public.comment (id, autor, content, created_at, updated_at, article_id) VALUES (3, 'Commentator 3', 'Comment 3 text', '2021-12-09 10:12:22', null, 3);
