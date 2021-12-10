@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\StaticPage;
 use App\Form\CommentFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use Twig\Environment;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
+use App\Repository\StaticPageRepository;
 
 class ArticleController extends AbstractController
 {
@@ -28,13 +29,14 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/', name: 'homepage')]
-    public function index(Request $request,ArticleRepository $articleRepository): Response
+    public function index(Request $request,ArticleRepository $articleRepository ): Response
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $articleRepository->getArticlePaginator($offset);
 
         return new Response($this->twig->render('article/index.html.twig', [
             //  'articles' => $articleRepository->findAll(),
+           // 'static_pages' =>$staticPageRepository->findAll(),
             'articles' => $paginator,
             'previous' => $offset - ArticleRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($paginator), $offset + ArticleRepository::PAGINATOR_PER_PAGE),
@@ -42,7 +44,7 @@ class ArticleController extends AbstractController
     }
 
      #[Route('/article/{id}', name: 'article')]
-    public function show(Request $request, Article $article, CommentRepository $commentRepository,LoggerInterface $logger): Response
+    public function show(Request $request, Article $article, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -65,10 +67,10 @@ class ArticleController extends AbstractController
 
         return new Response($this->twig->render('article/show.html.twig', [
             'article' => $article,
-            'autor' => $article->getAutor(),
-            'content' => $article->getContent(),
+           // 'autor' => $article->getAutor(),
+           // 'content' => $article->getContent(),
             'created_at' => $article->getCreatedAt()->format(('Y-m-d H:i:s')),
-            'title_str' => $article->getTitle(),
+           // 'title_str' => $article->getTitle(),
             'comments' => $paginator,
             'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
@@ -85,6 +87,16 @@ class ArticleController extends AbstractController
 
     }
 
+    #[Route('/static/{id}', name: 'static')]
+    public function showstatic(Request $request, StaticPage $staticPage, StaticPageRepository $staticPageRepository): Response
+    {
 
+        return new Response($this->twig->render('static.html.twig', [
+            'static_text' => $staticPage->getText(),
+            'static_title' => $staticPage->getTitle(),
+           // 'static_pages'=> $staticPageRepository->findAll(),
+
+        ]));
+    }
 
 }
