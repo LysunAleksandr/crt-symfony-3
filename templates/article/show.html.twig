@@ -3,13 +3,13 @@
 {% block title %}Articles - {{ article }}{% endblock %}
 
 {% block body %}
-    <h1> {{title_str}}  </h1>
-    <h2> Author : {{ autor }} </h2>
+    <h1> {{ article.title }}  </h1>
+    <h2> Author : {{ article.autor }} </h2>
     <h2> Created_at:  {{created_at}}  </h2>
     {% if article.photofilename %}
         <img src="{{ asset('uploads/photos/' ~ article.photofilename) }}" />
     {% endif %}
-    <h3> {{ content }} </h3>
+    <h3> {{ article.content }} </h3>
 
     {% if comments|length > 0 %}
         <div>There are {{ comments|length }} comments.</div>
@@ -33,7 +33,7 @@
         <div>No comments have been posted yet for this conference.</div>
     {% endif %}
 
-        <h2>Add your own feedback</h2>
+        <h2>Add your comment</h2>
 
         {{ form(comment_form) }}
 {% endblock %}
