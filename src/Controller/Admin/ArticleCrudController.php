@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
@@ -36,11 +37,11 @@ class ArticleCrudController extends AbstractCrudController
         ;
     }
 
-/*
+
         public function configureFields(string $pageName): iterable
         {
 
-            yield TextField::new('author');
+            yield TextField::new('autor');
             yield TextField::new('title');
 
 
@@ -55,8 +56,12 @@ class ArticleCrudController extends AbstractCrudController
             } else {
                 yield $createdAt;
             }
-            // yield AssociationField::new('comments');
+
+           yield ImageField::new('photoFilename')
+               ->setBasePath('images')
+               ->setUploadDir('public/uploads/photos')
+               ->setRequired(false);
 
     }
-*/
+
 }

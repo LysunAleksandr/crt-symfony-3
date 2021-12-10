@@ -19,6 +19,9 @@
                       <a href="{{ path('homepage') }}">Blog</a>
                       <a href="{{ path('admin') }}">Admin</a>
                       <a href="{{ path('about') }}">About</a>
+                      {% for static_page in static_pages %}
+                              <a href="{{ path('static', { id: static_page.id }) }}">{{ static_page }}</a>
+                      {% endfor %}
                   </h1>
             </header>
         {% block body %}{% endblock %}
